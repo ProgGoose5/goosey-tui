@@ -15,5 +15,5 @@ extern char* appsexe[];
 
 extern void Saving(char* apps[], char* appsexe[]);
 extern void Loading(char* apps[], char* appsexe[]);
-
+extern void ClearSaveFiles(char* apps[], char* appsexe[]);
 #endif
