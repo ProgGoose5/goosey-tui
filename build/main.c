@@ -4,15 +4,17 @@
 #define SELECTED_PAIR 2
 
 int actcaj = 0;
-int cajas = 2;
-char* apps[]={ "firefox", "terminology" };
-char* appsexe[]={ "firefox", "exec terminology" };
+int cajas = 0;
+char* apps[100]={"EXIT"};
+char* appsexe[100]={"exit"};
 
 void Loading(char* local_apps[], char* local_appsexe[]) {
     attroff(COLOR_PAIR(UNSELECTED_PAIR)); 
     attroff(COLOR_PAIR(SELECTED_PAIR)); 
     FILE* file = fopen("apps.txt", "r");
     FILE* file2 = fopen("executables.txt", "r");
+    FILE* file3 = fopen("cajas.txt", "r");
+    FILE* file4 = fopen("actcaj.txt", "r");
     if (file == NULL) {
         return;
     }
@@ -21,8 +23,8 @@ void Loading(char* local_apps[], char* local_appsexe[]) {
     }
 
 
-    fscanf(file, "%d", &cajas);
-    fscanf(file, "%d", &actcaj);
+    fscanf(file3, "%d", &cajas);
+    fscanf(file4, "%d", &actcaj);
 
     for (int i = 0; i < cajas; i++) {
         char app[100];
@@ -30,20 +32,24 @@ void Loading(char* local_apps[], char* local_appsexe[]) {
         local_apps[i] = strdup(app);
     }
 
-    for (int i = 0; i < cajas; i++) {
+    for (int j = 0; j < cajas; j++) {
         char app[100];
         fscanf(file2, "%s", app);
-        local_appsexe[i] = strdup(app);
+        local_appsexe[j] = strdup(app);
     }
     fclose(file);
     fclose(file2);
+    fclose(file3);
+    fclose(file4);
 }
 
 void Saving(char* local_apps[], char* local_appsexe[]) {
      attroff(COLOR_PAIR(UNSELECTED_PAIR)); 
     attroff(COLOR_PAIR(SELECTED_PAIR)); 
-    FILE* file = fopen("apps.txt", "w");
+       FILE* file = fopen("apps.txt", "w");
     FILE* file2 = fopen("executables.txt", "w");
+    FILE* file3 = fopen("cajas.txt", "w");
+    FILE* file4 = fopen("actcaj.txt", "w");
     if (file == NULL) {
         return;
     }
@@ -51,22 +57,46 @@ void Saving(char* local_apps[], char* local_appsexe[]) {
         return;
     }
 
-    fprintf(file, "%d\n", cajas);
-    fprintf(file, "%d\n", actcaj);
+    fprintf(file3, "%d\n", cajas);
+    fprintf(file4, "%d\n", actcaj);
  
-    fprintf(file2, "%d\n", cajas);
-    fprintf(file2, "%d\n", actcaj);
+    
+    
 
     for (int i = 0; i < cajas; i++) {
         fprintf(file, "%s\n", local_apps[i]);
     }
 
-    for (int i = 0; i < cajas; i++) {
-        fprintf(file2, "%s\n", local_appsexe[i]);
+    for (int j = 0; j < cajas; j++) {
+        fprintf(file2, "%s\n", local_appsexe[j]);
     }
     fclose(file);
     fclose(file2);
+    fclose(file3);
+    fclose(file4);
 }
+
+void ClearSaveFiles(char* local_apps[], char* local_appsexe[]) {
+    FILE* file = fopen("apps.txt", "w");
+    FILE* file2 = fopen("executables.txt", "w");
+    FILE* file3 = fopen("cajas.txt", "w");
+    FILE* file4 = fopen("actcaj.txt", "w");
+    if (file != NULL) {
+        fclose(file);
+    }
+    if (file2 != NULL) {
+        fclose(file2);
+        if (file != NULL) {
+        fclose(file);
+    }
+    if (file2 != NULL) {
+        fclose(file2);
+    } 
+    if (file3 != NULL) {
+        fclose(file3);
+    }
+    if (file4 != NULL) {
+        fclose(file4);}}}
 
 int main() {
     initscr();
@@ -83,7 +113,7 @@ int main() {
         clear();
         attron(COLOR_PAIR(UNSELECTED_PAIR));
         printw("TUI Bar \n"); 
-
+        Saving(apps, appsexe);
         for ( int i = 0; i < cajas; i++) {
             
             if (i == actcaj) {
@@ -117,6 +147,7 @@ int main() {
                 break;
 
             case KEY_UP:
+            
             attron(COLOR_PAIR(UNSELECTED_PAIR));
                 clear();
                 printw("Write down Application Name: ");
@@ -124,14 +155,14 @@ int main() {
                 echo();
                 getstr(new_app);
                 noecho();
-                apps[actcaj + 1] = strdup(new_app);
+                apps[cajas] = strdup(new_app);
 
                 printw("Write down the executable: ");
                 char new_app2[100];
                 echo();
                 getstr(new_app2);
                 noecho();
-                appsexe[actcaj + 1] = strdup(new_app2);
+                appsexe[cajas] = strdup(new_app2);
                 cajas++;
                 attron(COLOR_PAIR(UNSELECTED_PAIR));
                 Saving(apps, appsexe); 
@@ -142,6 +173,8 @@ int main() {
             case KEY_DOWN:
                 if (cajas > 1) {
                     cajas--;
+                    
+                    
                 }
                 break;
             case KEY_BACKSPACE:
