@@ -15,6 +15,7 @@ int main() {
     
     //Clearing Screen and printing the title...
         clear(); 
+        Resizing();
         Upperdecoration();
         Saving(apps, appsexe);
         for ( int i = 0; i < cajas; i++) {
@@ -39,6 +40,7 @@ int main() {
         printw("*"); }
         refresh();
         KeyCommands();
+        
     }
 
     endwin();
