@@ -14,9 +14,12 @@
 //Variables
 extern int actcaj;
 extern int cajas;
+extern int apps_layout;
+extern int cius;
 extern char* apps[];
 extern char* appsexe[];
-extern int apps_layout;
+extern int x, y;
+
 
 //Functions
 extern void Saving();
@@ -24,4 +27,6 @@ extern void Loading();
 extern void ClearSaveFiles();
 extern void Upperdecoration();
 extern void KeyCommands();
+extern void Resizing();
+
 #endif
