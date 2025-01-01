@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include <string.h>
 
+
 #ifndef DECLARATIONS_C
 
 //Defining Pairs numbers.
@@ -23,7 +24,8 @@ int cajas = 1; // Cajas means Boxes, where are stored the programs.
 
 char* apps[100] = {"EXIT"};
 char* appsexe[100] = {"exit"};
-int apps_layout = 5; // Apps Layout is the number of apps per line.
+int apps_layout; // Apps Layout is the number of apps per line.
+int x, y;
 
 void Loading(char* local_apps[], char* local_appsexe[]) {
     FILE* file = fopen("apps.txt", "r");
@@ -121,17 +123,44 @@ void Definitions(){
 
 }
 
+
+void Resizing(){
+char lines[12]= "tput lines";
+char columns[12]="tput cols";
+
+int lns, cols;
+
+FILE* lines_fp = popen(lines, "r");
+FILE* columns_fp = popen(columns, "r");
+
+if(lns != LINES || cols != COLS){
+    lns = LINES;
+    cols = COLS;
+     x = (cols/2)-5;
+}
+
+apps_layout = x;
+
+pclose(lines_fp);
+pclose(columns_fp);   
+// Set the font style and size using system commands
+char font_command[100];
+sprintf(font_command, "echo -ne '\\e]710;%s\\007'", "xft:Fira Code:style=Regular:pixelsize=12");
+system(font_command);
+}
+
 void Upperdecoration(){
-    attron(COLOR_PAIR(UNSELECTED_PAIR));
+    attron(COLOR_PAIR(BEAUTY_PAIR));
     printw("*");
-        for(int i=0; i<30; i++){
-            printw("\u2501");
+        for(int i=0; i<apps_layout; i++){
+            
+            printw("~");
         }
         attron(COLOR_PAIR(UNSELECTED_PAIR));
         printw("Goosey!"); 
         attron(COLOR_PAIR(BEAUTY_PAIR));
-        for(int i=0; i<30; i++){
-            printw("\u2501");
+        for(int i=0; i<apps_layout; i++){
+            printw("~");
         }
         printw("*");
         printw("\n");
@@ -202,6 +231,5 @@ void KeyCommands(){
                 }
                 break;
         }
-}
-
 #endif
+}
