@@ -3,8 +3,7 @@
 #include <unistd.h>
 #include <ncurses.h>
 #include <string.h>
-#include <utf8/utf8.h>
-#include <locale.h>
+
 
 #ifndef DECLARATIONS_C
 
@@ -22,7 +21,7 @@
 
 int actcaj = 0; // ActCaj means Actual Box.
 int cajas = 1; // Cajas means Boxes, where are stored the programs.
-
+int boxeslines= 1;
 char* apps[100] = {"EXIT"};
 char* appsexe[100] = {"exit"};
 int apps_layout; // Apps Layout is the number of apps per line.
@@ -119,7 +118,7 @@ void ClearSaveFiles() {
 void Definitions(){
     //initialization of colors, You can change the rgb tho.
     init_color(COLOR1, 255, 193, 23);
-    setlocale(LC_ALL, ""); 
+   
     init_pair(UNSELECTED_PAIR, COLOR_WHITE, COLOR_BLACK);
     init_pair(SELECTED_PAIR, COLOR_BLACK, COLOR_WHITE);
     init_pair(BEAUTY_PAIR, COLOR_BLUE, COLOR_BLACK);
@@ -144,7 +143,7 @@ if(lns != LINES || cols != COLS){
      y = lns;
 }
 
-apps_layout = x;
+apps_layout = x2/11;
 
 pclose(lines_fp);
 pclose(columns_fp);   
@@ -261,4 +260,3 @@ void KeyCommands(){
         }
 }
 #endif
-
