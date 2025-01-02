@@ -3,7 +3,8 @@
 #include <unistd.h>
 #include <ncurses.h>
 #include <string.h>
-
+#include <utf8/utf8.h>
+#include <locale.h>
 
 #ifndef DECLARATIONS_C
 
@@ -25,7 +26,10 @@ int cajas = 1; // Cajas means Boxes, where are stored the programs.
 char* apps[100] = {"EXIT"};
 char* appsexe[100] = {"exit"};
 int apps_layout; // Apps Layout is the number of apps per line.
-int x, y;
+int x, y, x2;
+
+char hordec[100] = "~"; // Horizontal Decoration
+char sidedec[50]= "|"; // Side Decoration
 
 void Loading(char* local_apps[], char* local_appsexe[]) {
     FILE* file = fopen("apps.txt", "r");
@@ -115,14 +119,13 @@ void ClearSaveFiles() {
 void Definitions(){
     //initialization of colors, You can change the rgb tho.
     init_color(COLOR1, 255, 193, 23);
-    
+    setlocale(LC_ALL, ""); 
     init_pair(UNSELECTED_PAIR, COLOR_WHITE, COLOR_BLACK);
     init_pair(SELECTED_PAIR, COLOR_BLACK, COLOR_WHITE);
     init_pair(BEAUTY_PAIR, COLOR_BLUE, COLOR_BLACK);
     init_pair(BEAUTY1_PAIR, COLOR_GREEN, COLOR_BLACK);
 
 }
-
 
 void Resizing(){
 char lines[12]= "tput lines";
@@ -136,7 +139,9 @@ FILE* columns_fp = popen(columns, "r");
 if(lns != LINES || cols != COLS){
     lns = LINES;
     cols = COLS;
-     x = (cols/2)-5;
+     x2 = cols;
+     x = (cols/2);
+     y = lns;
 }
 
 apps_layout = x;
@@ -145,25 +150,48 @@ pclose(lines_fp);
 pclose(columns_fp);   
 // Set the font style and size using system commands
 char font_command[100];
-sprintf(font_command, "echo -ne '\\e]710;%s\\007'", "xft:Fira Code:style=Regular:pixelsize=12");
-system(font_command);
+//sprintf(font_command, "echo -ne '\\e]710;%s\\007'", "xft:Fira Code:style=Regular:pixelsize=12");
+//system(font_command);
 }
 
 void Upperdecoration(){
+    
     attron(COLOR_PAIR(BEAUTY_PAIR));
     printw("*");
-        for(int i=0; i<apps_layout; i++){
-            
-            printw("~");
+        for(int i=0; i<x2-3; i++){
+            printw("%s", hordec);
         }
         attron(COLOR_PAIR(UNSELECTED_PAIR));
-        printw("Goosey!"); 
+        mvprintw(0,x-3,"Goosey"); 
         attron(COLOR_PAIR(BEAUTY_PAIR));
-        for(int i=0; i<apps_layout; i++){
-            printw("~");
+
+        mvprintw(0, x2-2,"*");
+        move(0, x2 - 1);
+
+        
+}
+
+void Sidesdecoration(){
+    attron(COLOR_PAIR(BEAUTY_PAIR));
+    for(int y1=1; y1<y-1; y1++){
+    mvprintw(y1, x2-2, sidedec);
+    mvprintw(y1, 0, sidedec);
+    }
+    move(1, 2);
+}
+
+void Lowerdecoration(){
+    
+    
+    attron(COLOR_PAIR(BEAUTY_PAIR));
+    mvprintw(y-1,0,"*");
+        for(int i=1; i<x2-2; i++){
+            
+            mvprintw(y-1, i,"%s", hordec);
         }
         printw("*");
         printw("\n");
+        
 
         
 }
@@ -231,5 +259,6 @@ void KeyCommands(){
                 }
                 break;
         }
-#endif
 }
+#endif
+
