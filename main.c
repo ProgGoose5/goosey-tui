@@ -20,7 +20,7 @@ int main() {
         Lowerdecoration();
         Sidesdecoration();
         Saving(apps, appsexe);
-        
+        boxeslines=1;
         
         
         for ( int i = 0; i < cajas; i++) {
@@ -31,8 +31,9 @@ int main() {
                 attron(COLOR_PAIR(UNSELECTED_PAIR));
                 
             }
-            if(i==apps_layout){
+            if(i/boxeslines==apps_layout){
                 move(1+cajas/i, 2);
+                boxeslines++;
             }
             printw("%s", apps[i]);
             attron(COLOR_PAIR(UNSELECTED_PAIR));
