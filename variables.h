@@ -9,7 +9,7 @@
 #include <ncurses.h>
 #include <string.h>
 #include "declarations.c"
-#include <utf8/utf8.h>
+
 
 //Variables
 extern int actcaj;
@@ -28,5 +28,9 @@ extern void ClearSaveFiles();
 extern void Upperdecoration();
 extern void KeyCommands();
 extern void Resizing();
+extern void Lowerdecoration();
+extern void Sidesdecoration();
+extern void Definitions();
+extern void Upperdecoration();
 
 #endif
