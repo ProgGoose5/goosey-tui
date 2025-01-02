@@ -246,13 +246,13 @@ void KeyCommands(){
                 system(command);
                 break;
 
-            case KEY_DOWN:
+            case KEY_UP:
              if (actcaj>= apps_layout){
                 actcaj-=apps_layout;
                 }
                 break;
 
-            case KEY_UP:
+            case KEY_DOWN:
             if (actcaj <= cajas - apps_layout){
                 actcaj+=apps_layout;
                 }
