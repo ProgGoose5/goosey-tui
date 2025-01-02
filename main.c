@@ -31,6 +31,9 @@ int main() {
                 attron(COLOR_PAIR(UNSELECTED_PAIR));
                 
             }
+            if(i==apps_layout){
+                move(1+cajas/i, 2);
+            }
             printw("%s", apps[i]);
             attron(COLOR_PAIR(UNSELECTED_PAIR));
             printw("\t");
