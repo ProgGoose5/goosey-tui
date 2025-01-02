@@ -13,8 +13,9 @@ cd ~/goosey/build
 
 *Use Cmake and make to install it.
 cmake ..
-
 sudo make
+
+*Then you can simply execute it with "goosey".
 
 
 
