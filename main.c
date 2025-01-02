@@ -9,7 +9,7 @@ int main() {
     keypad(stdscr, TRUE);
     noecho(); 
     Loading(apps, appsexe);
-
+    
 
     while (1) { //Looped until the user closes the program.
     
@@ -17,9 +17,13 @@ int main() {
         clear(); 
         Resizing();
         Upperdecoration();
+        Lowerdecoration();
+        Sidesdecoration();
         Saving(apps, appsexe);
+        
+        
+        
         for ( int i = 0; i < cajas; i++) {
-            
             if (i == actcaj) {
                attron(COLOR_PAIR(SELECTED_PAIR));
               
@@ -27,19 +31,17 @@ int main() {
                 attron(COLOR_PAIR(UNSELECTED_PAIR));
                 
             }
-          
             printw("%s", apps[i]);
+            attron(COLOR_PAIR(UNSELECTED_PAIR));
+            printw("\t");
             attron(COLOR_PAIR(BEAUTY1_PAIR));
             
             
         }
-        attron(COLOR_PAIR(UNSELECTED_PAIR));
-        printw("\n ");
         attron(COLOR_PAIR(BEAUTY_PAIR));
-        for(int i=0; i<50; i++){
-        printw("*"); }
         refresh();
         KeyCommands();
+        
         
     }
 
