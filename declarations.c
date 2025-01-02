@@ -31,11 +31,16 @@ char hordec[100] = "~"; // Horizontal Decoration
 char sidedec[50]= "|"; // Side Decoration
 
 void Loading(char* local_apps[], char* local_appsexe[]) {
-    FILE* file = fopen("apps.txt", "r");
-    FILE* file2 = fopen("executables.txt", "r");
-    FILE* file3 = fopen("cajas.txt", "r");
-    FILE* file4 = fopen("actcaj.txt", "r");
+    char path1[256], path2[256], path3[256], path4[256];
+    snprintf(path1, sizeof(path1), "%s/.config/goosey/apps.txt", getenv("HOME"));
+    snprintf(path2, sizeof(path2), "%s/.config/goosey/executables.txt", getenv("HOME"));
+    snprintf(path3, sizeof(path3), "%s/.config/goosey/cajas.txt", getenv("HOME"));
+    snprintf(path4, sizeof(path4), "%s/.config/goosey/actcaj.txt", getenv("HOME"));
 
+    FILE* file = fopen(path1, "r");
+    FILE* file2 = fopen(path2, "r");
+    FILE* file3 = fopen(path3, "r");
+    FILE* file4 = fopen(path4, "r");
     if (file == NULL || file2 == NULL || file3 == NULL || file4 == NULL) {
         if (file != NULL) fclose(file);
         if (file2 != NULL) fclose(file2);
@@ -75,10 +80,16 @@ void Loading(char* local_apps[], char* local_appsexe[]) {
 }
 
 void Saving(char* local_apps[], char* local_appsexe[]) {
-    FILE* file = fopen("apps.txt", "w");
-    FILE* file2 = fopen("executables.txt", "w");
-    FILE* file3 = fopen("cajas.txt", "w");
-    FILE* file4 = fopen("actcaj.txt", "w");
+    char path1[256], path2[256], path3[256], path4[256];
+    snprintf(path1, sizeof(path1), "%s/.config/goosey/apps.txt", getenv("HOME"));
+    snprintf(path2, sizeof(path2), "%s/.config/goosey/executables.txt", getenv("HOME"));
+    snprintf(path3, sizeof(path3), "%s/.config/goosey/cajas.txt", getenv("HOME"));
+    snprintf(path4, sizeof(path4), "%s/.config/goosey/actcaj.txt", getenv("HOME"));
+
+    FILE* file = fopen(path1, "w");
+    FILE* file2 = fopen(path2, "w");
+    FILE* file3 = fopen(path3, "w");
+    FILE* file4 = fopen(path4, "w");
     if (file == NULL || file2 == NULL || file3 == NULL || file4 == NULL) {
         if (file != NULL) fclose(file);
         if (file2 != NULL) fclose(file2);
@@ -246,13 +257,13 @@ void KeyCommands(){
                 system(command);
                 break;
 
-            case KEY_UP:
+            case KEY_DOWN:
              if (actcaj>= apps_layout){
                 actcaj-=apps_layout;
                 }
                 break;
 
-            case KEY_DOWN:
+            case KEY_UP:
             if (actcaj <= cajas - apps_layout){
                 actcaj+=apps_layout;
                 }
