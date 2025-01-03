@@ -31,13 +31,27 @@ int main() {
                 attron(COLOR_PAIR(UNSELECTED_PAIR));
                 
             }
+
+char* localcar= apps[i];
+            int numeric_value = 0;
+            for (char* p = localcar; *p != '\0'; p++) {
+                numeric_value += *p;
+                numeric_value *=gap;
+            }
+
             if(i/boxeslines==apps_layout){
-                move(1+cajas/i, 2);
+                
+                move(m+cajas/i, 2);
                 boxeslines++;
             }
+            move(m, numeric_value);
             printw("%s", apps[i]);
+            for(int h=0; h<gap; h++){
+            printw(" ");    
             attron(COLOR_PAIR(UNSELECTED_PAIR));
-            printw("\t");
+            }
+            // Keep it within a single digit
+            
             attron(COLOR_PAIR(BEAUTY1_PAIR));
             
             
