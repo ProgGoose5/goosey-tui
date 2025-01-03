@@ -1,3 +1,4 @@
+
 #ifndef VARIABLES_H
 #define VARIABLES_H
 
@@ -16,10 +17,17 @@ extern int actcaj;
 extern int cajas;
 extern int apps_layout;
 extern int cius;
-extern char* apps[];
-extern char* appsexe[];
 extern int x, y;
 
+extern char* apps[];
+extern char* appsexe[];
+
+extern char hordec[];
+extern char sidedec[];
+extern char cornerdec1[];
+extern char cornerdec2[];
+extern char cornerdec3[];
+extern char cornerdec4[];
 
 //Functions
 extern void Saving();
