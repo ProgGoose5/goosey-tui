@@ -12,9 +12,6 @@
 #define SELECTED_PAIR 2
 #define BEAUTY_PAIR 3
 #define BEAUTY1_PAIR 4
-
-#define COLOR1 1
-
 #define ADD_KEY 0667
 #define RUN_KEY 0450
 #define KEY_REMOVE 0666
@@ -22,13 +19,21 @@
 int actcaj = 0; // ActCaj means Actual Box.
 int cajas = 1; // Cajas means Boxes, where are stored the programs.
 int boxeslines= 1;
-char* apps[100] = {"EXIT"};
-char* appsexe[100] = {"exit"};
+int gap= 3; 
+
 int apps_layout; // Apps Layout is the number of apps per line.
 int x, y, x2;
+int m=1;    
 
+char* apps[100] = {"EXIT"};
+char* appsexe[100] = {"exit"};
 char hordec[100] = "~"; // Horizontal Decoration
 char sidedec[50]= "|"; // Side Decoration
+char cornerdec1[]= "*";
+char cornerdec2[]= "*";
+char cornerdec3[]= "*";
+char cornerdec4[]= "*";
+
 
 void Loading(char* local_apps[], char* local_appsexe[]) {
     char path1[256], path2[256], path3[256], path4[256];
@@ -127,9 +132,8 @@ void ClearSaveFiles() {
 } 
 
 void Definitions(){
-    //initialization of colors, You can change the rgb tho.
-    init_color(COLOR1, 255, 193, 23);
-   
+
+//Initializes the pairs, which are the combinations of colors.   
     init_pair(UNSELECTED_PAIR, COLOR_WHITE, COLOR_BLACK);
     init_pair(SELECTED_PAIR, COLOR_BLACK, COLOR_WHITE);
     init_pair(BEAUTY_PAIR, COLOR_BLUE, COLOR_BLACK);
@@ -145,7 +149,7 @@ int lns, cols;
 
 FILE* lines_fp = popen(lines, "r");
 FILE* columns_fp = popen(columns, "r");
-
+// Get the number of lines and columns
 if(lns != LINES || cols != COLS){
     lns = LINES;
     cols = COLS;
@@ -158,16 +162,12 @@ apps_layout = x2/11;
 
 pclose(lines_fp);
 pclose(columns_fp);   
-// Set the font style and size using system commands
-char font_command[100];
-//sprintf(font_command, "echo -ne '\\e]710;%s\\007'", "xft:Fira Code:style=Regular:pixelsize=12");
-//system(font_command);
 }
 
 void Upperdecoration(){
-    
+//This function prints the upper decoration.
     attron(COLOR_PAIR(BEAUTY_PAIR));
-    printw("*");
+    printw("%s", cornerdec1);
         for(int i=0; i<x2-3; i++){
             printw("%s", hordec);
         }
@@ -175,7 +175,7 @@ void Upperdecoration(){
         mvprintw(0,x-3,"Goosey"); 
         attron(COLOR_PAIR(BEAUTY_PAIR));
 
-        mvprintw(0, x2-2,"*");
+        mvprintw(0, x2-2,"%s", cornerdec2);
         move(0, x2 - 1);
 
         
@@ -194,12 +194,12 @@ void Lowerdecoration(){
     
     
     attron(COLOR_PAIR(BEAUTY_PAIR));
-    mvprintw(y-1,0,"*");
+    mvprintw(y-1,0,"%s", cornerdec3);
         for(int i=1; i<x2-2; i++){
             
             mvprintw(y-1, i,"%s", hordec);
         }
-        printw("*");
+        printw("%s", cornerdec4);
         printw("\n");
         
 
@@ -257,17 +257,18 @@ void KeyCommands(){
                 system(command);
                 break;
 
-            case KEY_DOWN:
+            case KEY_UP:
              if (actcaj>= apps_layout){
                 actcaj-=apps_layout;
                 }
                 break;
 
-            case KEY_UP:
-            if (actcaj <= cajas - apps_layout){
+            case KEY_DOWN:
+            if (actcaj < cajas - apps_layout){
                 actcaj+=apps_layout;
                 }
                 break;
         }
 }
 #endif
+
