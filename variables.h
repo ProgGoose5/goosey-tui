@@ -1,4 +1,3 @@
-
 #ifndef VARIABLES_H
 #define VARIABLES_H
 
@@ -9,21 +8,23 @@
 #include <unistd.h>
 #include <ncurses.h>
 #include <string.h>
+#include <wctype.h>
 #include "declarations.c"
-
+#include <locale.h>
 
 //Variables
 extern int actcaj;
 extern int cajas;
 extern int apps_layout;
 extern int cius;
-extern int x, y;
+extern int x, y, x2, m;
 
 extern char* apps[];
 extern char* appsexe[];
 
 extern char hordec[];
-extern char sidedec[];
+extern char Selecteddecoration1[];
+extern char Selecteddecoration2[];
 extern char cornerdec1[];
 extern char cornerdec2[];
 extern char cornerdec3[];
