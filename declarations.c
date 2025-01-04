@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <ncurses.h>
+#include <locale.h>
 #include <string.h>
-
+#include <wctype.h>
 
 #ifndef DECLARATIONS_C
 
@@ -12,9 +13,6 @@
 #define SELECTED_PAIR 2
 #define BEAUTY_PAIR 3
 #define BEAUTY1_PAIR 4
-#define ADD_KEY 0667
-#define RUN_KEY 0450
-#define KEY_REMOVE 0666
 
 int actcaj = 0; // ActCaj means Actual Box.
 int cajas = 1; // Cajas means Boxes, where are stored the programs.
@@ -27,12 +25,14 @@ int m=1;
 
 char* apps[100] = {"EXIT"};
 char* appsexe[100] = {"exit"};
-char hordec[100] = "~"; // Horizontal Decoration
-char sidedec[50]= "|"; // Side Decoration
-char cornerdec1[]= "*";
-char cornerdec2[]= "*";
-char cornerdec3[]= "*";
-char cornerdec4[]= "*";
+char hordec[100] = "═"; // Horizontal Decoration
+char sidedec[] =  "║"; // Side Decoration
+char cornerdec1[]= "╔";
+char cornerdec2[]= "╗";
+char cornerdec3[]= "╚";
+char cornerdec4[]= "╝";
+char Selecteddecoration1[]= "►";
+char Selecteddecoration2[]= "◀";
 
 
 void Loading(char* local_apps[], char* local_appsexe[]) {
@@ -131,15 +131,20 @@ void ClearSaveFiles() {
     if (file4 != NULL) fclose(file4);
 } 
 
+    
 void Definitions(){
+    
+    initscr(); // Initialize the ncurses library
+    start_color(); // Start color functionality
 
 //Initializes the pairs, which are the combinations of colors.   
     init_pair(UNSELECTED_PAIR, COLOR_WHITE, COLOR_BLACK);
-    init_pair(SELECTED_PAIR, COLOR_BLACK, COLOR_WHITE);
+    init_pair(SELECTED_PAIR, COLOR_YELLOW, COLOR_BLACK);
     init_pair(BEAUTY_PAIR, COLOR_BLUE, COLOR_BLACK);
     init_pair(BEAUTY1_PAIR, COLOR_GREEN, COLOR_BLACK);
-
+    
 }
+
 
 void Resizing(){
 char lines[12]= "tput lines";
@@ -174,7 +179,8 @@ void Upperdecoration(){
         attron(COLOR_PAIR(UNSELECTED_PAIR));
         mvprintw(0,x-3,"Goosey"); 
         attron(COLOR_PAIR(BEAUTY_PAIR));
-
+        mvprintw(0,x-4, "╣");
+        mvprintw(0,x+3, "╠");
         mvprintw(0, x2-2,"%s", cornerdec2);
         move(0, x2 - 1);
 
@@ -184,8 +190,8 @@ void Upperdecoration(){
 void Sidesdecoration(){
     attron(COLOR_PAIR(BEAUTY_PAIR));
     for(int y1=1; y1<y-1; y1++){
-    mvprintw(y1, x2-2, sidedec);
-    mvprintw(y1, 0, sidedec);
+    mvprintw(y1, x2-2, "%s", sidedec);
+    mvprintw(y1, 0, "%s", sidedec);
     }
     move(1, 2);
 }
