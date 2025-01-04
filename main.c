@@ -1,14 +1,13 @@
 #include "variables.h"
 
 int main() {
-
-    initscr();
-    start_color();
+setlocale(LC_ALL, "");
     //We define the combination of colors (Number, foreground, background);
     Definitions();
     keypad(stdscr, TRUE);
     noecho(); 
     Loading(apps, appsexe);
+    
     
 
     while (1) { //Looped until the user closes the program.
@@ -26,7 +25,8 @@ int main() {
         for ( int i = 0; i < cajas; i++) {
             if (i == actcaj) {
                attron(COLOR_PAIR(SELECTED_PAIR));
-              
+               printw("%s", Selecteddecoration1);
+               
             } else {
                 attron(COLOR_PAIR(UNSELECTED_PAIR));
                 
@@ -46,6 +46,16 @@ char* localcar= apps[i];
             }
             move(m, numeric_value);
             printw("%s", apps[i]);
+
+         if (i == actcaj) {
+               attron(COLOR_PAIR(SELECTED_PAIR));
+               printw(Selecteddecoration2);
+               
+            } else {
+                attron(COLOR_PAIR(UNSELECTED_PAIR));
+                
+            } 
+
             for(int h=0; h<gap; h++){
             printw(" ");    
             attron(COLOR_PAIR(UNSELECTED_PAIR));
