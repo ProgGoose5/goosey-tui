@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(Goosey C) 
 set(CMAKE_C_STANDARD 99)   
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lncurses") 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lncursesw") 
 include_directories(HEADER_FILE)
 file(GLOB MAIN
     "main.c"
