@@ -14,9 +14,11 @@ setlocale(LC_ALL, "");
     
     //Clearing Screen and printing the title...
         clear(); 
+        blackout();       
         Resizing();
         Upperdecoration();
         Lowerdecoration();
+        buttonlay();
         Sidesdecoration();
         Saving(apps, appsexe);
         boxeslines=1;
@@ -44,6 +46,7 @@ char* localcar= apps[i];
                 move(m+cajas/i, 2);
                 boxeslines++;
             }
+            
             move(m, numeric_value);
             printw("%s", apps[i]);
 
@@ -60,17 +63,14 @@ char* localcar= apps[i];
             printw(" ");    
             attron(COLOR_PAIR(UNSELECTED_PAIR));
             }
-            // Keep it within a single digit
+            
             
             attron(COLOR_PAIR(BEAUTY1_PAIR));
-            
-            
+                        
         }
         attron(COLOR_PAIR(BEAUTY_PAIR));
         refresh();
-        KeyCommands();
-        
-        
+        KeyCommands();                
     }
 
     endwin();
