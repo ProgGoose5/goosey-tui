@@ -14,27 +14,35 @@
 #define BEAUTY_PAIR 3
 #define BEAUTY1_PAIR 4
 
+//Not customizable (Or atleast not recommendable)
+
 int actcaj = 0; // ActCaj means Actual Box.
 int cajas = 1; // Cajas means Boxes, where are stored the programs.
-int boxeslines= 1;
+int boxeslines= 1; //Boxeslines means the different lines that the boxes can complete.
+
+//Customizable
 int gap= 3; 
 
+//Not Customizable
 int apps_layout; // Apps Layout is the number of apps per line.
-int x, y, x2;
-int m=1;    
+int x, y, x2; //Positions on the terminal
+int m=1;    //Also a position in the terminal.
 
+//Not Customizable
 char* apps[100] = {"EXIT"};
 char* appsexe[100] = {"exit"};
+
+//Customizable
 char hordec[100] = "═"; // Horizontal Decoration
 char sidedec[] =  "║"; // Side Decoration
-char cornerdec1[]= "╔";
-char cornerdec2[]= "╗";
-char cornerdec3[]= "╚";
-char cornerdec4[]= "╝";
-char Selecteddecoration1[]= "►";
-char Selecteddecoration2[]= "◀";
+char cornerdec1[]= "╔"; //Upper Left Corner
+char cornerdec2[]= "╗"; //Upper Right Corner
+char cornerdec3[]= "╚"; //Lower Left Corner
+char cornerdec4[]= "╝"; //Lower Right Corner
+char Selecteddecoration1[]= "►"; //Appears at the left when an app is hovered. 
+char Selecteddecoration2[]= "◀"; //Same as Selected Decoration but at the Right.
 
-
+//Function for loading saved apps
 void Loading(char* local_apps[], char* local_appsexe[]) {
     char path1[256], path2[256], path3[256], path4[256];
     snprintf(path1, sizeof(path1), "%s/.config/goosey/apps.txt", getenv("HOME"));
@@ -84,6 +92,7 @@ void Loading(char* local_apps[], char* local_appsexe[]) {
     fclose(file4);
 }
 
+//Function for saving apps
 void Saving(char* local_apps[], char* local_appsexe[]) {
     char path1[256], path2[256], path3[256], path4[256];
     snprintf(path1, sizeof(path1), "%s/.config/goosey/apps.txt", getenv("HOME"));
@@ -120,6 +129,7 @@ void Saving(char* local_apps[], char* local_appsexe[]) {
     fclose(file4);
 }
 
+//Function for Clearing Save Files
 void ClearSaveFiles() {
     FILE* file = fopen("apps.txt", "w");
     FILE* file2 = fopen("executables.txt", "w");
@@ -131,7 +141,7 @@ void ClearSaveFiles() {
     if (file4 != NULL) fclose(file4);
 } 
 
-    
+//Function for Defining or starting Processes.    
 void Definitions(){
     
     initscr(); // Initialize the ncurses library
@@ -147,13 +157,16 @@ void Definitions(){
 
 
 void Resizing(){
-char lines[12]= "tput lines";
-char columns[12]="tput cols";
+    //BASH COMMANDS
+char lines[12]= "tput lines"; 
+char columns[12]="tput cols"; 
 
+//Defining variables to copy the result of the commands
 int lns, cols;
 
-FILE* lines_fp = popen(lines, "r");
-FILE* columns_fp = popen(columns, "r");
+FILE* lines_fp = popen(lines, "r"); //Calls the command into Bash and Reads the results.
+FILE* columns_fp = popen(columns, "r"); //Same.
+
 // Get the number of lines and columns
 if(lns != LINES || cols != COLS){
     lns = LINES;
@@ -163,60 +176,93 @@ if(lns != LINES || cols != COLS){
      y = lns;
 }
 
-apps_layout = x2/11;
+apps_layout = x2/11; //You can change this for a better layout.
 
-pclose(lines_fp);
+//Closing the Bash.
+pclose(lines_fp); 
 pclose(columns_fp);   
 }
 
+//Visual Function for Painting the entire terminal on Black.
+void blackout(){
+    for(int i=-2; i<=y; i++){
+        for(int j=-2; j<=x2+2; j++){
+            UNSELECTED_PAIR;
+            mvprintw(i, j, " ");
+        }
+    }
+}
+
+//Visual Function for printing the buttons.
+void buttonlay(){
+    if(x2>70){
+move (y-2, 3);
+//F1 
+attron(COLOR_PAIR(BEAUTY_PAIR));
+printw("F1: ");
+attron(COLOR_PAIR(SELECTED_PAIR));
+printw("Remove Latest\t");
+//F2
+attron(COLOR_PAIR(BEAUTY_PAIR));
+printw("F2: ");
+attron(COLOR_PAIR(SELECTED_PAIR));
+printw("Add New Command\t");
+//F3
+attron(COLOR_PAIR(BEAUTY_PAIR));
+printw("F3: ");
+attron(COLOR_PAIR(SELECTED_PAIR));
+printw("Execute Selected\t");
+    }
+}
+
 void Upperdecoration(){
-//This function prints the upper decoration.
+//Visual Function that prints the upper decoration.
     attron(COLOR_PAIR(BEAUTY_PAIR));
-    printw("%s", cornerdec1);
+    mvprintw(0,1,"%s", cornerdec1);
         for(int i=0; i<x2-3; i++){
             printw("%s", hordec);
         }
         attron(COLOR_PAIR(UNSELECTED_PAIR));
-        mvprintw(0,x-3,"Goosey"); 
+        mvprintw(0,x-6,"Goosey"); 
         attron(COLOR_PAIR(BEAUTY_PAIR));
-        mvprintw(0,x-4, "╣");
-        mvprintw(0,x+3, "╠");
+        mvprintw(0,x-7, "╣");
+        mvprintw(0,x, "╠");
         mvprintw(0, x2-2,"%s", cornerdec2);
         move(0, x2 - 1);
 
         
 }
-
+//Visual Function that prints the sides decoration.
 void Sidesdecoration(){
     attron(COLOR_PAIR(BEAUTY_PAIR));
     for(int y1=1; y1<y-1; y1++){
     mvprintw(y1, x2-2, "%s", sidedec);
-    mvprintw(y1, 0, "%s", sidedec);
+    mvprintw(y1, 1, "%s", sidedec);
     }
-    move(1, 2);
+    move(1, 4);
 }
 
+//Visual Function that prints the lower decoration.
 void Lowerdecoration(){
     
     
     attron(COLOR_PAIR(BEAUTY_PAIR));
-    mvprintw(y-1,0,"%s", cornerdec3);
-        for(int i=1; i<x2-2; i++){
+    mvprintw(y-1,1,"%s", cornerdec3);
+        for(int i=2; i<x2-2; i++){
             
             mvprintw(y-1, i,"%s", hordec);
         }
         printw("%s", cornerdec4);
         printw("\n");
-        
-
-        
+                
 }
 
+//Function for defining the keys and their commands.
 void KeyCommands(){
 
-        int cius = getch();
+        int cius = getch(); //Getch gets the input from the keyboard.
         char command[100];
-        switch (cius) {
+        switch (cius) { //Cases for different Keys
             case KEY_LEFT:
                 if (actcaj > 0) {
                     actcaj--;
@@ -234,12 +280,13 @@ void KeyCommands(){
             attron(COLOR_PAIR(UNSELECTED_PAIR));
                 clear();
                 printw("Write down Application Name: ");
-                char new_app[100];
+                char new_app[100]; //declare a local variable for setting up apps.
                 echo();
-                getstr(new_app);
+                getstr(new_app); //Get string new_app, gets the value of a character.
                 noecho();
-                apps[cajas] = strdup(new_app);
+                apps[cajas] = strdup(new_app); //This same variable is copied into the string.
 
+            //Same process
                 printw("Write down the executable: ");
                 char new_app2[100];
                 echo();
@@ -277,4 +324,3 @@ void KeyCommands(){
         }
 }
 #endif
-
