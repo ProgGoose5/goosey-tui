@@ -201,7 +201,7 @@ move (y-2, 3);
 attron(COLOR_PAIR(BEAUTY_PAIR));
 printw("F1: ");
 attron(COLOR_PAIR(SELECTED_PAIR));
-printw("Remove Latest\t");
+printw("Remove Command\t");
 //F2
 attron(COLOR_PAIR(BEAUTY_PAIR));
 printw("F2: ");
@@ -296,15 +296,8 @@ void KeyCommands(){
                 cajas++;
                 attron(COLOR_PAIR(UNSELECTED_PAIR));
                 Saving(apps, appsexe); 
-
-
                 break;
 
-            case KEY_F(1):
-                if (cajas > 1) {
-                    cajas--;
-                }
-                break;
             case KEY_F(3):
                 sprintf(command, "%s &", appsexe[actcaj]);
                 system(command);
@@ -321,6 +314,29 @@ void KeyCommands(){
                 actcaj+=apps_layout;
                 }
                 break;
+
+            case KEY_F(1):
+            if (cajas > 1){
+        
+                if(actcaj<cajas){
+
+                    for(int i=1; i<cajas-actcaj; i++){
+                       int j= i-1;
+                char* temp_app = apps[actcaj+i];
+                   apps[actcaj+j]= temp_app;
+                char* temp_exe = appsexe[actcaj+i];
+                   appsexe[actcaj+j] = temp_exe;
+                   Saving(apps, appsexe);
+                    }
+                   cajas--;
+                  
+                }
+
+
+            
+            break;
+
+            }
         }
 }
 #endif
