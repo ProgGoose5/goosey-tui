@@ -28,6 +28,7 @@ setlocale(LC_ALL, "");
         Saving(apps, appsexe);
         boxeslines=1;
         
+        
     //Printing the selected and unselected boxes    
     for ( int i = 0; i < cajas; i++) {
         if (i == actcaj) 
@@ -42,12 +43,13 @@ setlocale(LC_ALL, "");
     for (char* p = localcar; *p != '\0'; p++) 
       { numeric_value += *p;
         numeric_value *=gap;  }
-
-    if(i/boxeslines==apps_layout)
+int Mega= i%apps_layout;
+    if(Mega==0 && i != 0)
     {   move(m+cajas/i, 2);
-        boxeslines++; }
+        boxeslines++; 
+        numeric_value= 2;}
             
-    move(m, numeric_value);
+    move(boxeslines, numeric_value);
     printw("%s", apps[i]);
 
     if (i == actcaj) {
