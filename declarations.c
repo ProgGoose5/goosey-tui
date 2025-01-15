@@ -5,7 +5,7 @@
 #include <locale.h>
 #include <string.h>
 #include <wctype.h>
-
+#include <math.h>
 #ifndef DECLARATIONS_C
 
 //Defining Pairs numbers.
@@ -176,7 +176,8 @@ if(lns != LINES || cols != COLS){
      y = lns;
 }
 
-apps_layout = x2/11; //You can change this for a better layout.
+
+apps_layout = (int)floor(x2 / 10); // You can change this for a better layout.
 
 //Closing the Bash.
 pclose(lines_fp); 
