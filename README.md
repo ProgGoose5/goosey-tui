@@ -7,7 +7,7 @@ Add a quick access by using the key F2, writting the name to be displayed and th
 How to install:
 Clone this repository
 ```
-$git clone https://github.com/ProgGoose5/goosey-tui/
+$ git clone https://github.com/ProgGoose5/goosey-tui/
 
 ```
 Go to the goosey file.
